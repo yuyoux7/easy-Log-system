@@ -71,9 +71,10 @@ public:
 	Log& operator<<(Log& other) {
 		other.~Log();
 		*this << other.Buff;
+		return *this;
 	};
-	template<typename T>
-	void LogWrite(T in);
+	template<typename T, typename ...C>
+	void LogWrite(T in, C... a);
 	void LogWrite() {
 		std::clog << *this;
 		if ((this->filename != std::string() && tm != time(NULL)) || olock) {
@@ -100,9 +101,13 @@ private:
 	time_t tm{};
 };
 
-template<typename T>
-inline void Log::LogWrite(T in)
+template<typename T, typename ...C>
+inline void Log::LogWrite(T in, C... a)
 {
 	*this << in;
+	if (sizeof...(a))
+	{
+		LogWrite(a...);
+	}
 	LogWrite();
 }
