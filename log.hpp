@@ -31,11 +31,46 @@ public:
 	friend std::string& operator<<(Log& lg, unsigned long& in) {
 		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
 	};
-	friend std::string& operator<<(Log& lg, std::string str) {
+	friend std::string& operator<<(Log& lg, std::string& str) {
 		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + str + '\n');
 	};
 	friend std::string& operator<<(Log& lg, char& in) {
 		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + in + '\n');
+	};
+	friend std::string& operator<<(Log& lg, const std::string& str) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + str + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const char* str) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + str + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const char& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + in + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const int& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const long& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const long long& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const unsigned int& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const unsigned long& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+	}
+	friend std::string& operator<<(Log& lg, const short& in) {
+		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+	}
+	friend std::string& operator<<(std::string& cl, int& val)
+	{
+		return cl += turnstr(val);
+	};
+	Log& operator<<(Log& other) {
+		other.~Log();
+		*this << other.Buff;
 	};
 	template<typename T>
 	void LogWrite(T in);
