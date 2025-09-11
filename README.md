@@ -1,6 +1,6 @@
 # easy-Log-system
 A easy Log system
-#How to using
+# How to using
 ```C++
 #include "Log.hpp"
 Log lg{};
