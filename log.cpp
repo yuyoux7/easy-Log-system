@@ -9,9 +9,12 @@ std::string turnstr(long long nu)
 	std::reverse(flash.begin(), flash.end());
 	return std::string(flash);
 }
-void Log::SetLogName(std::string url)
+
+void Log::SetLogName(const char* url)
 {
-	this->filename = url;
+	this->filename = (char*)malloc(sizeof(url) + 2);
+	if (this->filename != nullptr)
+		strcpy_s(this->filename, sizeof(this->filename), url);
 }
 
 void Log::rmtime(Log* lg)

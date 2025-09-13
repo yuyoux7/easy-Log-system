@@ -5,7 +5,7 @@
 std::string turnstr(long long nu);
 class Log {
 public:
-	Log() {};
+	Log() : filename(nullptr) {};
 	friend std::ostream& operator<<(std::ostream& io, Log& lg)
 	{
 		lg.Buff += lg.flash;
@@ -78,8 +78,10 @@ public:
 	template<typename T, typename ...C>
 	void LogWrite(T in, C... a);
 	void LogWrite() {
-		std::clog << *this;
-		if ((this->filename != std::string() && tm != time(NULL)) || olock) {
+		if (this->out) {
+			std::clog << *this;
+		}
+		if ((this->filename != nullptr && tm != time(NULL)) || (olock && this->filename != nullptr)) {
 			std::ofstream ofile{};
 			ofile.open(this->filename);
 			if (ofile.is_open())
@@ -90,7 +92,11 @@ public:
 			tm = time(NULL);
 		}
 	};
-	void SetLogName(std::string url = "log.txt");
+	void SetLogName(const char* url = "log.txt");
+	void AutoOut(bool stat = true)
+	{
+		this->out = stat;
+	};
 	virtual ~Log() {
 		olock = true;
 		LogWrite();
@@ -98,8 +104,9 @@ public:
 private:
 	std::string Buff{};
 	std::string flash{};
-	std::string filename = {};
+	char* filename{};
 	bool olock = false;
+	bool out = true;
 	time_t tm{};
 	void rmtime(Log* lg);
 };
