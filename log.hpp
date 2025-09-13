@@ -69,7 +69,9 @@ public:
 		return cl += turnstr(val);
 	};
 	Log& operator<<(Log& other) {
-		other.~Log();
+		other;
+		other.LogWrite();
+		rmtime(&other);
 		*this << other.Buff;
 		return *this;
 	};
@@ -82,7 +84,7 @@ public:
 			ofile.open(this->filename);
 			if (ofile.is_open())
 			{
-				ofile << Buff;
+				ofile << this->Buff;
 			}
 			ofile.close();
 			tm = time(NULL);
@@ -99,6 +101,7 @@ private:
 	std::string filename = {};
 	bool olock = false;
 	time_t tm{};
+	void rmtime(Log* lg);
 };
 
 template<typename T, typename ...C>

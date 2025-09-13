@@ -13,3 +13,25 @@ void Log::SetLogName(std::string url)
 {
 	this->filename = url;
 }
+
+void Log::rmtime(Log* lg)
+{
+	std::string vflash{};
+	for (size_t i = 0; i < lg->Buff.size(); i++)
+	{
+		if (lg->Buff[i] == '[')
+		{
+			while (true)
+			{
+				i++;
+				if (lg->Buff[i - 1] == ']' && lg->Buff[i] == ':')
+				{
+					i++;
+					break;
+				}
+			};
+		}
+		vflash += lg->Buff[i];
+	}
+	lg->Buff = vflash;
+}
