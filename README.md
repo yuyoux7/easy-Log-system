@@ -9,5 +9,5 @@ int main() {
 }
 ```
 # Support func
-[x] set personal log head info
-[x] set out file name & local
+- [x] set personal log head info
+- [x] set out file name & local
