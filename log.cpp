@@ -1,6 +1,10 @@
 #include "log.hpp"
 std::string turnstr(long long nu)
 {
+	if (nu == 0)
+	{
+		return "0";
+	}
 	std::string flash{};
 	for (long long s = nu; s != 0; s /= 10)
 	{

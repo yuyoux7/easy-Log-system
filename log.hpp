@@ -5,7 +5,17 @@
 std::string turnstr(long long nu);
 class Log {
 public:
-	Log() : filename(nullptr) {};
+	enum info_list : int
+	{
+		unix_time,
+		run_time,
+		warning,
+		error,
+		static_string
+	};
+	Log() : filename(nullptr), st(time(NULL)) {
+		this->setLogheadinfo();
+	};
 	friend std::ostream& operator<<(std::ostream& io, Log& lg)
 	{
 		lg.Buff += lg.flash;
@@ -14,55 +24,72 @@ public:
 		return io;
 	};
 	friend std::string& operator<<(Log& lg, long long& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	};
 	friend std::string& operator<<(Log& lg, long& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	};
 	friend std::string& operator<<(Log& lg, int& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	};
 	friend std::string& operator<<(Log& lg, short& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	};
 	friend std::string& operator<<(Log& lg, unsigned int& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	};
 	friend std::string& operator<<(Log& lg, unsigned long& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	};
 	friend std::string& operator<<(Log& lg, std::string& str) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + str + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
 	};
 	friend std::string& operator<<(Log& lg, char& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + in + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + in + '\n');
 	};
 	friend std::string& operator<<(Log& lg, const std::string& str) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + str + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const char* str) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + str + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const char& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + in + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + in + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const int& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const long& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const long long& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const unsigned int& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const unsigned long& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	}
 	friend std::string& operator<<(Log& lg, const short& in) {
-		return lg.flash += (std::string("[" + (std::string)turnstr(time(NULL)) + "]:") + turnstr(in) + '\n');
+		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
+		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
 	}
 	friend std::string& operator<<(std::string& cl, int& val)
 	{
@@ -97,6 +124,30 @@ public:
 	{
 		this->out = stat;
 	};
+	void setLogheadinfo(int basic_info_list = Log::unix_time, std::string str = std::string())
+	{
+		this->infotype = basic_info_list;
+		switch (basic_info_list)
+		{
+		case Log::unix_time:
+			this->logheadinfo = turnstr(time(NULL));
+			break;
+		case Log::run_time:
+			this->logheadinfo = turnstr((time(NULL) - this->st));
+			break;
+		case Log::warning:
+			this->logheadinfo = "warning";
+			break;
+		case Log::error:
+			this->logheadinfo = "error";
+			break;
+		case Log::static_string:
+			this->logheadinfo = str;
+			break;
+		default:
+			break;
+		}
+	};
 	virtual ~Log() {
 		olock = true;
 		LogWrite();
@@ -107,8 +158,10 @@ private:
 	char* filename{};
 	bool olock = false;
 	bool out = true;
-	time_t tm{};
+	int infotype{};
+	time_t tm{}, st{};
 	void rmtime(Log* lg);
+	std::string logheadinfo{};
 };
 
 template<typename T, typename ...C>
