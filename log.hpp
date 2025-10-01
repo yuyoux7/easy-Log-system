@@ -7,14 +7,18 @@ class Log {
 public:
 	enum info_list : int
 	{
-		unix_time,
-		run_time,
-		warning,
-		error,
-		static_string
+		unix_time	= 0x00001,
+		run_time	= 0x00010,
+		warning		= 0x00100,
+		error		= 0x01000,
+		static_string = 0x10000
 	};
 	Log() : filename(nullptr), st(time(NULL)) {
 		this->setLogheadinfo();
+	};
+	Log(std::string lg) : filename(nullptr), st(time(NULL))
+	{
+		this->Buff = lg + "\n";
 	};
 	friend std::ostream& operator<<(std::ostream& io, Log& lg)
 	{
@@ -96,10 +100,10 @@ public:
 		return cl += turnstr(val);
 	};
 	Log& operator<<(Log& other) {
-		other;
-		other.LogWrite();
-		rmtime(&other);
-		*this << other.Buff;
+		other.out = false;
+		other.Buff += other.flash;
+		other.flash.clear();
+		this->rw(other.Buff);
 		return *this;
 	};
 	template<typename T, typename ...C>
@@ -113,7 +117,7 @@ public:
 			ofile.open(this->filename);
 			if (ofile.is_open())
 			{
-				ofile << this->Buff;
+				ofile << this->getbuff();
 			}
 			ofile.close();
 			tm = time(NULL);
@@ -144,13 +148,45 @@ public:
 		case Log::static_string:
 			this->logheadinfo = str;
 			break;
+		case Log::unix_time | Log::warning:
+			this->logheadinfo = (turnstr(time(NULL)) + " warning");
+			this->infotype = Log::static_string;
+			break;
+		case Log::unix_time | Log::error:
+			this->logheadinfo = (turnstr(time(NULL)) + " error");
+			this->infotype = Log::static_string;
+			break;
+		case Log::unix_time | Log::static_string:
+			this->logheadinfo = (turnstr(time(NULL)) + " " + str);
+			this->infotype = Log::static_string;
+			break;
+		case Log::run_time | Log::warning:
+			this->logheadinfo = (turnstr((time(NULL) - this->st)) + " warning");
+			this->infotype = Log::static_string;
+			break;
+		case Log::run_time | Log::error:
+			this->logheadinfo = (turnstr((time(NULL) - this->st)) + " error");
+			this->infotype = Log::static_string;
+			break;
+		case Log::run_time | Log::static_string:
+			this->logheadinfo = (turnstr((time(NULL) - this->st)) + " " + str);
+			this->infotype = Log::static_string;
+			break;
 		default:
+			*this << "Not support this info type";
+			*this << "using basic type";
+			setLogheadinfo();
 			break;
 		}
 	};
 	virtual ~Log() {
 		olock = true;
 		LogWrite();
+		if (filename != nullptr)
+		{
+			free(filename);
+			filename = nullptr;
+		}
 	};
 private:
 	std::string Buff{};
@@ -160,7 +196,13 @@ private:
 	bool out = true;
 	int infotype{};
 	time_t tm{}, st{};
-	void rmtime(Log* lg);
+	void rw(std::string lg) {
+		this->flash += lg;
+	};
+	const char* getbuff()
+	{
+		return Buff.c_str();
+	};
 	std::string logheadinfo{};
 };
 

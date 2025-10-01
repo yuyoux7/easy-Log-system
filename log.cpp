@@ -16,29 +16,8 @@ std::string turnstr(long long nu)
 
 void Log::SetLogName(const char* url)
 {
-	this->filename = (char*)malloc(sizeof(url) + 2);
+	this->filename = (char*)malloc(strlen(url) + 2);
 	if (this->filename != nullptr)
-		strcpy_s(this->filename, sizeof(this->filename), url);
+		strcpy_s(this->filename, (strlen(url) + 2), url);
 }
 
-void Log::rmtime(Log* lg)
-{
-	std::string vflash{};
-	for (size_t i = 0; i < lg->Buff.size(); i++)
-	{
-		if (lg->Buff[i] == '[')
-		{
-			while (true)
-			{
-				i++;
-				if (lg->Buff[i - 1] == ']' && lg->Buff[i] == ':')
-				{
-					i++;
-					break;
-				}
-			};
-		}
-		vflash += lg->Buff[i];
-	}
-	lg->Buff = vflash;
-}
