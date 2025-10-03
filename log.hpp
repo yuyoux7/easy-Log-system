@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <cstring>
+
 std::string turnstr(long long nu);
 class Log {
 public:

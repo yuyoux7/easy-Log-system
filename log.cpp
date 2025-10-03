@@ -17,7 +17,13 @@ std::string turnstr(long long nu)
 void Log::SetLogName(const char* url)
 {
 	this->filename = (char*)malloc(strlen(url) + 2);
-	if (this->filename != nullptr)
+	if (this->filename != nullptr) {
+	#if defined(_WIN32)
+
 		strcpy_s(this->filename, (strlen(url) + 2), url);
+	#else
+		strcpy(this->filename, url);
+	#endif
+	}
 }
 
