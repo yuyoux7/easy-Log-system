@@ -114,6 +114,11 @@ public:
 		if (this->out) {
 			std::clog << *this;
 		}
+		else
+		{
+			this->Buff += this->flash;
+			this->flash.clear();
+		}
 		if ((this->filename != nullptr && tm != time(NULL)) || (olock && this->filename != nullptr)) {
 			std::ofstream ofile{};
 			ofile.open(this->filename);
@@ -217,4 +222,5 @@ inline void Log::LogWrite(T in, C... a)
 		LogWrite(a...);
 	}
 	LogWrite();
+
 }
