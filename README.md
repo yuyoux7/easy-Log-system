@@ -2,7 +2,7 @@
 A easy Log system
 # How to using
 ```C++
-#include "Log.hpp"
+#include "log.hpp"
 Log lg{};
 int main() {
   lg << "Log info";
