@@ -1,10 +1,8 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include <algorithm>
-#include <cstring>
+#include <string>
 
-std::string turnstr(long long nu);
 class Log {
 public:
 	enum info_list : int
@@ -29,77 +27,94 @@ public:
 		lg.flash.clear();
 		return io;
 	};
-	friend std::string& operator<<(Log& lg, long long& in) {
+	friend Log& operator<<(Log& lg, long long& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, long& in) {
+	friend Log& operator<<(Log& lg, long& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, int& in) {
+	friend Log& operator<<(Log& lg, int& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, short& in) {
+	friend Log& operator<<(Log& lg, short& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, unsigned int& in) {
+	friend Log& operator<<(Log& lg, unsigned int& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, unsigned long& in) {
+	friend Log& operator<<(Log& lg, unsigned long& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, std::string& str) {
+	friend Log& operator<<(Log& lg, std::string& str) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, char& in) {
+	friend Log& operator<<(Log& lg, char& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + in + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + in + '\n');
+		return lg;
 	};
-	friend std::string& operator<<(Log& lg, const std::string& str) {
+	friend Log& operator<<(Log& lg, const std::string& str) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const char* str) {
+	friend Log& operator<<(Log& lg, const char* str) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + str + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const char& in) {
+	friend Log& operator<<(Log& lg, const char& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + in + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + in + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const int& in) {
+	friend Log& operator<<(Log& lg, const int& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const long& in) {
+	friend Log& operator<<(Log& lg, const long& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const long long& in) {
+	friend Log& operator<<(Log& lg, const long long& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const unsigned int& in) {
+	friend Log& operator<<(Log& lg, const unsigned int& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const unsigned long& in) {
+	friend Log& operator<<(Log& lg, const unsigned long& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	}
-	friend std::string& operator<<(Log& lg, const short& in) {
+	friend Log& operator<<(Log& lg, const short& in) {
 		lg.setLogheadinfo(lg.infotype, lg.logheadinfo);
-		return lg.flash += (std::string("[" + lg.logheadinfo + "]:") + turnstr(in) + '\n');
+		lg.flash += (std::string("[" + lg.logheadinfo + "]:") + std::to_string(in) + '\n');
+		return lg;
 	}
 	friend std::string& operator<<(std::string& cl, int& val)
 	{
-		return cl += turnstr(val);
+		return cl += std::to_string(val);
 	};
 	Log& operator<<(Log& other) {
 		other.out = false;
@@ -141,10 +156,10 @@ public:
 		switch (basic_info_list)
 		{
 		case Log::unix_time:
-			this->logheadinfo = turnstr(time(NULL));
+			this->logheadinfo = std::to_string(time(NULL));
 			break;
 		case Log::run_time:
-			this->logheadinfo = turnstr((time(NULL) - this->st));
+			this->logheadinfo = std::to_string((time(NULL) - this->st));
 			break;
 		case Log::warning:
 			this->logheadinfo = "warning";
@@ -156,27 +171,27 @@ public:
 			this->logheadinfo = str;
 			break;
 		case Log::unix_time | Log::warning:
-			this->logheadinfo = (turnstr(time(NULL)) + " warning");
+			this->logheadinfo = (std::to_string(time(NULL)) + " warning");
 			this->infotype = Log::static_string;
 			break;
 		case Log::unix_time | Log::error:
-			this->logheadinfo = (turnstr(time(NULL)) + " error");
+			this->logheadinfo = (std::to_string(time(NULL)) + " error");
 			this->infotype = Log::static_string;
 			break;
 		case Log::unix_time | Log::static_string:
-			this->logheadinfo = (turnstr(time(NULL)) + " " + str);
+			this->logheadinfo = (std::to_string(time(NULL)) + " " + str);
 			this->infotype = Log::static_string;
 			break;
 		case Log::run_time | Log::warning:
-			this->logheadinfo = (turnstr((time(NULL) - this->st)) + " warning");
+			this->logheadinfo = (std::to_string((time(NULL) - this->st)) + " warning");
 			this->infotype = Log::static_string;
 			break;
 		case Log::run_time | Log::error:
-			this->logheadinfo = (turnstr((time(NULL) - this->st)) + " error");
+			this->logheadinfo = (std::to_string((time(NULL) - this->st)) + " error");
 			this->infotype = Log::static_string;
 			break;
 		case Log::run_time | Log::static_string:
-			this->logheadinfo = (turnstr((time(NULL) - this->st)) + " " + str);
+			this->logheadinfo = (std::to_string((time(NULL) - this->st)) + " " + str);
 			this->infotype = Log::static_string;
 			break;
 		default:
@@ -224,3 +239,16 @@ inline void Log::LogWrite(T in, C... a)
 	LogWrite();
 
 }
+
+inline void Log::SetLogName(const char* url)
+{
+	this->filename = (char*)malloc(strlen(url) + 2);
+	if (this->filename != nullptr) {
+#if defined(_WIN32)
+
+		strcpy_s(this->filename, (strlen(url) + 2), url);
+#else
+		strcpy(this->filename, url);
+#endif
+	}
+};
