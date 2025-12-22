@@ -24,7 +24,7 @@ void setLogheadinfo(int basic_info_list = Log::unix_time, std::string user_str =
 <p5>If you no need save can no set<p5>
 
 ```C++
-void SetLogName(const char* url = "log.txt");a
+void SetLogName(const char* url = "log.txt");
 ```
 
 <h4> Log Write </h4>
