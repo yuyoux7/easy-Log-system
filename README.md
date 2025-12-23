@@ -3,9 +3,9 @@ A easy Log system
 # How to using
 ```C++
 #include "log.hpp"
-Log lg{};
+Logger::Log logger{};
 int main() {
-  lg << "Log info";
+  logger << "Log info";
 }
 ```
 # Func
