@@ -144,7 +144,7 @@ namespace Logger {
 				this->Buff += this->flash;
 				this->flash.clear();
 			}
-			if ((this->filename != nullptr && tm != time(NULL)) || (olock && this->filename != nullptr)) {
+			if ((this->filename != nullptr && this->tm != time(NULL)) || (this->olock && this->filename != nullptr)) {
 				std::ofstream ofile{};
 				ofile.open(this->filename);
 				if (ofile.is_open())
@@ -152,7 +152,7 @@ namespace Logger {
 					ofile << this->getbuff();
 				}
 				ofile.close();
-				tm = time(NULL);
+				this->tm = time(NULL);
 			}
 		};
 		void SetLogName(const char* url = "log.txt");
@@ -236,12 +236,13 @@ namespace Logger {
 		std::string logheadinfo{};
 		constexpr std::string addInfo()
 		{
-			if (hd) {
-				hd = false;
+			if (this->hd) {
+				this->hd = false;
 				return (std::string("[" + this->logheadinfo + "]:"));
 			}
 			else
-				return std::string();
+				this->flash.pop_back();
+			return std::string();
 		};
 	};
 
@@ -256,9 +257,9 @@ namespace Logger {
 		*this << in;
 		if (sizeof...(a))
 		{
-			LogWrite(a...);
+			this->LogWrite(a...);
 		}
-		LogWrite();
+		this->LogWrite();
 		this->hd = true;
 	};
 
