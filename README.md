@@ -29,17 +29,9 @@ void SetLogName(const char* url = "log.txt");
 
 <h4> Log Write </h4>
 
-
-<p5> swap buffers func </p5>
-
 ```C++
 // If you no write anything is just swap buffers
-void LogWrite(T in, C... next);
-```
-<p5> No swap buffers func </p5>
-
-```C++
-your_log_object << "your log" << Logger::lendl;
+void LogWrite(T in, C... next); // or using (your_log_object << "your log" << Logger::lendl;)
 ```
 
 <h4> Auto Out </h4>
