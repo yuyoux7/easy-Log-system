@@ -5,7 +5,7 @@ A easy Log system
 #include "log.hpp"
 Logger::Log logger{};
 int main() {
-  logger << "Log info";
+  logger << "Log info" << Logger::lendl;
 }
 ```
 # Func
@@ -39,7 +39,7 @@ void LogWrite(T in, C... next);
 <p5> No swap buffers func </p5>
 
 ```C++
-your_log_object << "your log";
+your_log_object << "your log" << Logger::lendl;
 ```
 
 <h4> Auto Out </h4>
