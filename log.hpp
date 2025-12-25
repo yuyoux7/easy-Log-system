@@ -267,7 +267,7 @@ namespace Logger {
 	{
 		this->filename = (char*)malloc(strlen(url) + 2);
 		if (this->filename != nullptr) {
-#if defined(_WIN32)
+#if defined(_MSC_VER)
 
 			strcpy_s(this->filename, (strlen(url) + 2), url);
 #else
