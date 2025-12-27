@@ -146,10 +146,11 @@ namespace Logger {
 			}
 			if ((this->filename != nullptr && this->tm != time(NULL)) || (this->olock && this->filename != nullptr)) {
 				std::ofstream ofile{};
-				ofile.open(this->filename);
+				ofile.open(this->filename, std::ios::app);
 				if (ofile.is_open())
 				{
-					ofile << this->getbuff();
+					ofile << this->Buff.c_str();
+					this->Buff.clear();
 				}
 				ofile.close();
 				this->tm = time(NULL);
@@ -229,10 +230,6 @@ namespace Logger {
 		bool hd = true;
 		int infotype{};
 		time_t tm{}, st{};
-		const char* getbuff()
-		{
-			return Buff.c_str();
-		};
 		std::string logheadinfo{};
 		constexpr std::string addInfo()
 		{
@@ -268,11 +265,12 @@ namespace Logger {
 		this->filename = (char*)malloc(strlen(url) + 2);
 		if (this->filename != nullptr) {
 #if defined(_MSC_VER)
-
 			strcpy_s(this->filename, (strlen(url) + 2), url);
 #else
 			strcpy(this->filename, url);
 #endif
+			std::ofstream a(this->filename);
+			a.close();
 		}
 	};
 }
