@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <corecrt.h>
+#include <string>
 #include <malloc.h>
 #include <string.h>
 #include <ctime>
