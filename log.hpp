@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <string>
 #include <malloc.h>
 #include <string.h>
 #include <ctime>
@@ -9,24 +9,23 @@
 namespace Logger {
 	class Log {
 	public:
-		enum info_list : int const
+		enum info_list : char const
 		{
-			unix_time = 0x00001,
-			run_time = 0x00010,
-			warning = 0x00100,
-			error = 0x01000,
-			static_string = 0x10000
+			unix_time = 0b001,
+			run_time = 0b010,
+			warning = 0b100,
+			error = 0b1000,
+			static_string = 0b10000
 		};
 		Log() : filename(nullptr), st(time(NULL)) {
 			this->setLogheadinfo();
 		};
-		template <typename T>
-		constexpr Log(T lg) : filename(nullptr), st(time(NULL))
+		Log(const char* lg) : filename(nullptr), st(time(NULL))
 		{
 			this->setLogheadinfo();
-			*this << lg;
-			this->hd = true;
+			this->SetLogName(lg);
 		};
+		Log(Log&) = delete;
 		friend std::ostream& operator<<(std::ostream& io, Log& lg)
 		{
 			lg.Buff += lg.flash;
@@ -129,12 +128,16 @@ namespace Logger {
 			other.out = false;
 			other.Buff += other.flash;
 			other.flash.clear();
-			this->flash += other.Buff;
+			other.data += other.Buff;
+			this->flash += other.data;
+			this->ct++;
+			this->ct += other.ct;
 			return *this;
 		};
+		Log& operator=(Log&) = delete;
 		template<typename T, typename ...C>
-		void LogWrite(T in, C... a);
-		void LogWrite() {
+		void LogWrite(T in, C... a) noexcept;
+		void LogWrite() noexcept {
 			if (this->out) {
 				std::clog << *this;
 			}
@@ -149,18 +152,19 @@ namespace Logger {
 				if (ofile.is_open())
 				{
 					ofile << this->Buff.c_str();
+					this->data += this->Buff;
 					this->Buff.clear();
 				}
 				ofile.close();
 				this->tm = time(NULL);
 			}
 		};
-		void SetLogName(const char* url = "log.txt");
-		constexpr void AutoOut(bool stat = true)
+		void SetLogName(const char* url = "log.txt") noexcept;
+		constexpr void AutoOut(bool stat = true) noexcept
 		{
 			this->out = stat;
 		};
-		constexpr void setLogheadinfo(int basic_info_list = Log::unix_time, std::string str = std::string())
+		constexpr void setLogheadinfo(int basic_info_list = Log::unix_time, std::string str = std::string()) noexcept
 		{
 			this->infotype = basic_info_list;
 			switch (basic_info_list)
@@ -223,14 +227,16 @@ namespace Logger {
 	private:
 		std::string Buff{};
 		std::string flash{};
-		char* filename{};
+		std::string logheadinfo{};
+		std::string data{};
+		time_t tm{}, st{};
+		char infotype{};
 		bool olock = false;
 		bool out = true;
 		bool hd = true;
-		int infotype{};
-		time_t tm{}, st{};
-		std::string logheadinfo{};
-		constexpr std::string addInfo()
+		int ct{};
+		char* filename{};
+		constexpr std::string addInfo() noexcept
 		{
 			if (this->hd) {
 				this->hd = false;
@@ -242,13 +248,13 @@ namespace Logger {
 		};
 	};
 
-	Log& lendl(Log& L)
+	Log& lendl(Log& L) noexcept
 	{
 		return L;
 	};
 
 	template<typename T, typename ...C>
-	inline void Log::LogWrite(T in, C... a)
+	inline void Log::LogWrite(T in, C... a) noexcept
 	{
 		*this << in;
 		if (sizeof...(a))
@@ -259,8 +265,15 @@ namespace Logger {
 		this->hd = true;
 	};
 
-	inline void Log::SetLogName(const char* url)
+	inline void Log::SetLogName(const char* url) noexcept
 	{
+		if (this->filename) {
+			this->olock = true;
+			this->LogWrite();
+			this->olock = false;
+			free(this->filename);
+		}
+		this->filename = nullptr;
 		this->filename = (char*)malloc(strlen(url) + 2);
 		if (this->filename != nullptr) {
 #if defined(_MSC_VER)
